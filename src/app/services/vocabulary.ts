@@ -103,6 +103,7 @@ export class VocabularyService {
       vocab: newItem.vocab,
       translation: newItem.translation,
       example: newItem.example || '',
+      category: newItem.category,
       createdAt: new Date()
     };
 
