@@ -1,1 +1,30 @@
-<p>home works!</p>
+<h1>Lists</h1>
+<ul class="list-container">
+    <li *ngFor="let list of lists$ | async" class="list-item">
+        <div>
+            <strong>{{ list.name }}</strong>
+            <span *ngIf="list.description"> - {{ list.description }}</span>
+            <br />
+            <small>{{ list.language }}, {{ list.itemCount || 0 }} words</small>
+        </div>
+        <button (click)="viewList(list.id)">View</button>
+        <button class="delete" (click)="deleteList(list.id)">Delete</button>
+    </li>
+
+    <li *ngIf="(lists$ | async)?.length === 0" class="empty">
+    No lists yet. Create your first one!
+  </li>
+</ul>
+
+<form [formGroup]="listForm" (ngSubmit)="createList()">
+    <h2>Create New List</h2>
+    <input formControlName="name" placeholder="Name" required>
+    <input formControlName="description" placeholder="Description (optional)">
+    <select formControlName="language">
+          <option value="en">English</option>
+          <option value="de">German</option>
+          <option value="cn">Chinese</option>
+          <option value="kr">Korean</option>
+        </select>
+    <button type="submit" [disabled]="listForm.invalid || listForm.pristine">Create</button>
+</form>
