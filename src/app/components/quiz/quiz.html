@@ -2,9 +2,14 @@
     <h1>Multiple Choice Quiz</h1>
     <p>Question {{ currentQuestionIndex + 1 }} / 10</p>
     <h2>{{ questions[currentQuestionIndex]?.prompt }}</h2>
+    <button class="showHideButton" *ngIf="questions[currentQuestionIndex]?.item?.pronunciation != null" 
+        (click)="setShowPronunciation(!showPronunciation)">{{ pronunciationText }}</button>
 
+    <br><br>
     <div class="options">
         <button *ngFor="let option of questions[currentQuestionIndex]?.options"
+            [disabled]="selectedAnswer !== null"
+            [class.selected]="selectedAnswer === option"
             [class.correct]="selectedAnswer && option === questions[currentQuestionIndex]?.correctAnswer"
             [class.incorrect]="selectedAnswer && option === selectedAnswer && option !== questions[currentQuestionIndex]?.correctAnswer"
             (click)="selectAnswer(option)">
@@ -12,7 +17,7 @@
         </button>
     </div>
 
-    <button *ngIf="selectedAnswer" (click)="nextQuestion()">Next</button>
+    <!-- <button *ngIf="selectedAnswer" (click)="nextQuestion()">Next</button> -->
 </div>
 
 <div *ngIf="quizComplete">

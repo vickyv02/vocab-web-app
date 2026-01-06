@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { VocabularyItem } from '../../models/vocabulary.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VocabularyService } from '../../services/vocabulary';
@@ -15,6 +15,7 @@ interface QuizQuestion {
 
 @Component({
   selector: 'app-quiz',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './quiz.html',
   styleUrl: './quiz.css',
@@ -26,8 +27,15 @@ export class Quiz implements OnInit {
   score = 0;
   quizComplete = false;
   selectedAnswer: string | null = null;
+  autoAdvanceTimeout?: any;
+  showPronunciation: boolean = false;
+  pronunciationText: string | null = "Show Pronunciation";
 
-  constructor(private route: ActivatedRoute, private router: Router, private vocabularyService: VocabularyService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private vocabularyService: VocabularyService,
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.listId = this.route.snapshot.paramMap.get('id');
@@ -43,7 +51,7 @@ export class Quiz implements OnInit {
     }
   }
 
-  private generateQuiz(items: VocabularyItem[]): void {
+  generateQuiz(items: VocabularyItem[]): void {
     console.log(items.length);
     if (items.length < 4) {
       alert('At least 4 words are needed to create a quiz from this list.');
@@ -60,26 +68,7 @@ export class Quiz implements OnInit {
 
       // 3 wrong answers
       const sameCategoryItems = items.filter(i => i.category === item.category && i.id !== item.id);
-      //const otherCategoryItems = items.filter(i => i.id !== item.id && !sameCategoryItems.includes(i));
       console.log("quizzing " + item.category);
-
-      //const wrongAnswers: string[] = [];
-      //const usedIds = new Set<string>();
-
-      /*const addWrongAnswer = (candidateItem: VocabularyItem) => {
-        if (usedIds.has(candidateItem.id)) return;
-        const answer = vocabAsPrompt ? candidateItem.translation : candidateItem.vocab;
-        if (answer !== correctAnswer) {
-          wrongAnswers.push(answer);
-          usedIds.add(candidateItem.id);
-        }
-      }
-
-      [...sameCategoryItems].sort(() => 0.5 - Math.random()).forEach(addWrongAnswer);
-      if (wrongAnswers.length < 3) {
-        [...otherCategoryItems].sort(() => 0.5 - Math.random()).forEach(addWrongAnswer);
-        while (wrongAnswers.length > 3) wrongAnswers.pop();
-      }*/
 
       const wrongAnswers = sameCategoryItems.sort(() => 0.5 - Math.random()).slice(0, 3)
         .map(a => vocabAsPrompt ? a.translation : a.vocab);
@@ -97,6 +86,8 @@ export class Quiz implements OnInit {
     });
 
     console.log('Quiz generated successfully:', this.questions);
+
+    this.cdr.detectChanges(); // update template once the quiz questions are generated
   }
 
   selectAnswer(answer: string): void {
@@ -106,15 +97,30 @@ export class Quiz implements OnInit {
     if (answer === this.questions[this.currentQuestionIndex].correctAnswer) {
       this.score++;
     }
+
+    this.setShowPronunciation(true);
+
+    // next question
+    this.autoAdvanceTimeout = setTimeout(() => {
+      this.nextQuestion();
+    }, 2000);
   }
 
   nextQuestion(): void {
+    if (this.autoAdvanceTimeout) {
+      clearTimeout(this.autoAdvanceTimeout);
+      this.autoAdvanceTimeout = null;
+    }
+
     this.selectedAnswer = null;
     this.currentQuestionIndex++;
 
     if (this.currentQuestionIndex >= this.questions.length) {
       this.quizComplete = true;
     }
+
+    this.setShowPronunciation(false);
+    this.cdr.detectChanges();
   }
 
   restartQuiz(): void {
@@ -123,5 +129,14 @@ export class Quiz implements OnInit {
 
   backToList(): void {
     this.router.navigate(['/list', this.listId]);
+  }
+
+  setShowPronunciation(show: boolean) {
+    this.showPronunciation = show;
+    if (show) {
+      this.pronunciationText = this.questions[this.currentQuestionIndex]?.item?.pronunciation ?? null;
+    } else {
+      this.pronunciationText = "Show Pronunciation";
+    }
   }
 }
