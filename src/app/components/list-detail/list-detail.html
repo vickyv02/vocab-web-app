@@ -15,6 +15,9 @@
         <li *ngIf="list.itemCount === 0">No words yet. Add one below!</li>
     </ul>
 
+    <h2>Study</h2>
+    <button (click)="startQuiz()">Multiple Choice Quiz</button>
+
     <form [formGroup]="addVocabForm" (ngSubmit)="addVocab()">
         <h2>Add New Vocab</h2>
         <input formControlName="vocab" placeholder="Vocab" required>
@@ -22,8 +25,7 @@
         <input formControlName="example" placeholder="Example (optional)">
         <select formControlName="category">
           <option value="noun">Noun</option>
-          <option value="verb">Verb</option>
-          <option value="adjective_adverb">Adjective/Adverb</option>
+          <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
           <option value="phrase_idiom">Phrase/Idiom</option>
           <option value="other">Other</option>
         </select>

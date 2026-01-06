@@ -56,7 +56,7 @@ export class ListDetail implements OnInit {
 
     try {
       await this.vocabularyService.addItemToList(this.listId, newVocab);
-      this.addVocabForm.reset();
+      this.addVocabForm.reset({ category: VocabularyCategory.Other });
     } catch (error) {
       console.error('Error adding vocab:', error);
       // TODO add toast
@@ -77,6 +77,12 @@ export class ListDetail implements OnInit {
         console.error('Error deleting item:', error);
         alert('Failed to delete item.');
       }
+    }
+  }
+
+  startQuiz() {
+    if (this.listId) {
+      this.router.navigate(['/list', this.listId, 'quiz']);
     }
   }
 }

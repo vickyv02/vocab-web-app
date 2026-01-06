@@ -29,8 +29,7 @@ export interface VocabularyList {
 
 export enum VocabularyCategory {
     Noun = 'noun',
-    Verb = 'verb',
-    AdjectiveAdverb = 'adjective_adverb',
+    VerbAdjectiveAdverb = 'verb_adjective_adverb',
     PhraseIdiom = 'phrase_idiom',
     Other = 'other'
 }

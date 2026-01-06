@@ -1,0 +1,13 @@
+.options button {
+    display: block;
+    margin: 8px 0;
+    padding: 8px;
+}
+.correct {
+    background: green;
+    color: white;
+}
+.incorrect {
+    background: red;
+    color: white;
+}
