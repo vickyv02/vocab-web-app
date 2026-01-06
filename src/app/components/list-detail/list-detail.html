@@ -33,6 +33,8 @@
         <button type="submit" [disabled]="addVocabForm.invalid">Add</button>
     </form>
 
+    <input type="file" (change)="onVocabFileSelected($event)" accept=".json,.txt">
+
     <button (click)="goBackToLists()">Back to Lists</button>
 </div>
 

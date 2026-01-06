@@ -87,4 +87,28 @@ export class ListDetail implements OnInit {
       this.router.navigate(['/list', this.listId, 'quiz']);
     }
   }
+
+  async onVocabFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const text = await file.text();
+    let items: NewVocabularyItem[];
+    try {
+      items = JSON.parse(text);
+    } catch {
+      alert('Invalid JSON.');
+      return;
+    }
+
+    if (!this.listId) return;
+
+    for (const item of items) {
+      if (item.vocab && item.translation && item.category) {
+        await this.vocabularyService.addItemToList(this.listId, item);
+      }
+    }
+
+    // TODO add txt
+  }
 }
