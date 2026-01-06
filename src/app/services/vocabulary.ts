@@ -101,6 +101,7 @@ export class VocabularyService {
     const itemsCol = collection(this.firestore, `users/${user.uid}/lists/${listId}/items`);
     const vocabItem = {
       vocab: newItem.vocab,
+      pronunciation: newItem.pronunciation,
       translation: newItem.translation,
       example: newItem.example || '',
       category: newItem.category,

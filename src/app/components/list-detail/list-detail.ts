@@ -20,6 +20,7 @@ export class ListDetail implements OnInit {
   vocabs: VocabularyItem[] = [];
   addVocabForm = new FormGroup({
     vocab: new FormControl('', Validators.required),
+    pronunciation: new FormControl(''),
     translation: new FormControl('', Validators.required),
     example: new FormControl(''),
     category: new FormControl(VocabularyCategory.Other, Validators.required)
@@ -49,6 +50,7 @@ export class ListDetail implements OnInit {
 
     const newVocab: NewVocabularyItem = {
       vocab: vocab,
+      pronunciation: this.addVocabForm.get('pronunciation')?.value?.trim() || undefined,
       translation: translation,
       example: this.addVocabForm.get('example')?.value?.trim() || undefined,
       category: category

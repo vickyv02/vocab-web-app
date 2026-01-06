@@ -4,6 +4,7 @@ export class Vocabulary {
 export interface VocabularyItem {
     id: string;
     vocab: string;
+    pronunciation?: string;
     translation: string;
     example?: string;
     category: VocabularyCategory;
@@ -12,6 +13,7 @@ export interface VocabularyItem {
 
 export interface NewVocabularyItem {
     vocab: string;
+    pronunciation?: string;
     translation: string;
     example?: string;
     category: VocabularyCategory;

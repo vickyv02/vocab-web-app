@@ -5,7 +5,7 @@
     <h2>Words ({{ list.itemCount }})</h2>
     <ul>
         <li *ngFor="let item of list.items">
-            <strong>{{ item.vocab }}</strong> - {{ item.translation }}
+            <strong>{{ item.vocab }}</strong> - {{ item.translation }} [{{ item.pronunciation }}]
             <br />
             <blockquote *ngIf="item.example">{{ item.example }}</blockquote>
 
@@ -21,7 +21,8 @@
     <form [formGroup]="addVocabForm" (ngSubmit)="addVocab()">
         <h2>Add New Vocab</h2>
         <input formControlName="vocab" placeholder="Vocab" required>
-        <input formControlName="translation" placeholder="Translation">
+        <input formControlName="pronunciation" placeholder="Pronunciation (optional)">
+        <input formControlName="translation" placeholder="Translation" required>
         <input formControlName="example" placeholder="Example (optional)">
         <select formControlName="category">
           <option value="noun">Noun</option>
