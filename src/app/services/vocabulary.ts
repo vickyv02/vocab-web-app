@@ -14,9 +14,9 @@ export class VocabularyService {
     this.user$ = authState(this.auth);
 
     // anon login
-    signInAnonymously(this.auth)
+    /*signInAnonymously(this.auth)
     .then(() => console.log('Anonymous sign-in successful.'))
-    .catch((error) => console.error('Anonymous sign-in failed.', error));
+    .catch((error) => console.error('Anonymous sign-in failed.', error));*/
   }
 
   getLists(): Observable<VocabularyList[]> {

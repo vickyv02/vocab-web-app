@@ -2,6 +2,8 @@
     <h1>Multiple Choice Quiz</h1>
     <p>Question {{ currentQuestionIndex + 1 }} / 10</p>
     <h2>{{ questions[currentQuestionIndex]?.prompt }}</h2>
+    <p *ngIf="questions[currentQuestionIndex]?.item?.example">
+        {{ questions[currentQuestionIndex]?.item?.example }}</p>
     <button class="showHideButton" *ngIf="questions[currentQuestionIndex]?.item?.pronunciation != null" 
         (click)="setShowPronunciation(!showPronunciation)">{{ pronunciationText }}</button>
 

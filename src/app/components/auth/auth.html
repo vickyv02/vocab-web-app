@@ -1,0 +1,16 @@
+<div class="auth-container">
+    <ng-container *ngIf="user$ | async as user">
+        <!-- <p>Signed in as <strong>{{ user.displayName || user.email }}</strong>.</p> -->
+        <!-- <img [src]="user.photoURL" alt="Profile" class="profile-pic" *ngIf="user.photoURL"> -->
+        <button (click)="signOutFromGoogle()" class="sign-out">Sign Out</button>
+    </ng-container>
+
+    <ng-container *ngIf="!(user$ | async)">
+        <h2>Welcome to Mori Vocab!</h2>
+        <p>Please sign in to sync your lists across devices.</p>
+        <button (click)="signInWithGoogle()" class="google-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G" width="20">
+            Sign in with Google
+        </button>
+    </ng-container>
+</div>
