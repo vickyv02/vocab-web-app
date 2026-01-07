@@ -40,14 +40,26 @@ export class Quiz implements OnInit {
   ngOnInit(): void {
     this.listId = this.route.snapshot.paramMap.get('id');
     if (this.listId) {
+      this.resetQuiz();
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  resetQuiz(): void {
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.quizComplete = false;
+    this.selectedAnswer = null;
+    this.autoAdvanceTimeout = null;
+
+    if (this.listId) {
       this.vocabularyService.getListById(this.listId).pipe(
         take(1),
         map(list => list?.items || [])
       ).subscribe(items => {
         this.generateQuiz(items);
       });
-    } else {
-      this.router.navigate(['/']);
     }
   }
 
@@ -124,14 +136,14 @@ export class Quiz implements OnInit {
   }
 
   restartQuiz(): void {
-    this.router.navigate(['/list', this.listId, 'quiz']);
+    this.resetQuiz();
   }
 
   backToList(): void {
     this.router.navigate(['/list', this.listId]);
   }
 
-  setShowPronunciation(show: boolean) {
+  setShowPronunciation(show: boolean): void {
     this.showPronunciation = show;
     if (show) {
       this.pronunciationText = this.questions[this.currentQuestionIndex]?.item?.pronunciation ?? null;
