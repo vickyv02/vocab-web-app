@@ -39,32 +39,6 @@ export class ListDetail implements OnInit {
     }
   }
 
-  async addVocab() {
-    if (!this.listId) return;
-
-    const vocab = this.addVocabForm.get('vocab')?.value?.trim();
-    const translation = this.addVocabForm.get('translation')?.value?.trim();
-    const category = this.addVocabForm.get('category')?.value as VocabularyCategory;
-
-    if (!vocab || !translation || !category) return;
-
-    const newVocab: NewVocabularyItem = {
-      vocab: vocab,
-      pronunciation: this.addVocabForm.get('pronunciation')?.value?.trim() || undefined,
-      translation: translation,
-      example: this.addVocabForm.get('example')?.value?.trim() || undefined,
-      category: category
-    }
-
-    try {
-      await this.vocabularyService.addItemToList(this.listId, newVocab);
-      this.addVocabForm.reset({ category: VocabularyCategory.Other });
-    } catch (error) {
-      console.error('Error adding vocab:', error);
-      // TODO add toast
-    }
-  }
-
   goBackToLists() {
     this.router.navigate(['/']);
   }
@@ -79,6 +53,12 @@ export class ListDetail implements OnInit {
         console.error('Error deleting item:', error);
         alert('Failed to delete item.');
       }
+    }
+  }
+
+  addNewItem() {
+    if (this.listId) {
+      this.router.navigate(['/list', this.listId, 'add']);
     }
   }
 

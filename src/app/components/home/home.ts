@@ -16,33 +16,9 @@ export class Home {
   //lists: VocabularyList[] = [];
   lists$: Observable<VocabularyList[]>; // Observable that updates in real time
 
-  listForm = new FormGroup({
-    name: new FormControl(''),
-    description: new FormControl(''),
-    language: new FormControl('', Validators.required),
-  });
-
   constructor(private vocabularyService: VocabularyService, private router: Router) {
     this.lists$ = this.vocabularyService.getLists();
    }
-
-  async createList() {
-    const name = this.listForm.get('name')?.value?.trim();
-    const description = this.listForm.get('description')?.value?.trim();
-    const language = this.listForm.get('language')?.value as ListLanguage;
-    
-    if (!name || !language) return;
-
-    try {
-      const newList = await this.vocabularyService.createList(name, language, description);
-      this.listForm.reset(); // this.listForm.get('name')?.setValue('');
-      this.viewList(newList.id);
-    } catch (error) {
-      console.error('Error creating list:' + error);
-      // TODO add toast
-    }
-
-  }
 
   viewList(id: string) {
     this.router.navigate(['/list', id]);
@@ -57,6 +33,9 @@ export class Home {
         alert('Failed to delete list.');
       }
     }
+  }
 
+  createList() {
+    this.router.navigate(['/list/create']);
   }
 }

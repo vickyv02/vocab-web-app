@@ -2,25 +2,12 @@
     <h1>{{ list.name }}</h1>
     <p *ngIf="list.description">{{ list.description }}</p>
 
+    <button class="list-new" (click)="addNewItem()">Add New Item</button>
+    <!-- Add from JSON -->
+    <input type="file" (change)="onVocabFileSelected($event)" accept=".json,.txt"> 
+
     <h2>Study</h2>
     <button (click)="startQuiz()">Multiple Choice Quiz</button>
-
-    <form [formGroup]="addVocabForm" (ngSubmit)="addVocab()">
-        <h2>Add New Vocab</h2>
-        <input formControlName="vocab" placeholder="Vocab" required>
-        <input formControlName="pronunciation" placeholder="Pronunciation (optional)">
-        <input formControlName="translation" placeholder="Translation" required>
-        <input formControlName="example" placeholder="Example (optional)">
-        <select formControlName="category">
-          <option value="noun">Noun</option>
-          <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
-          <option value="phrase_idiom">Phrase/Idiom</option>
-          <option value="other">Other</option>
-        </select>
-        <button type="submit" [disabled]="addVocabForm.invalid">Add</button>
-    </form>
-
-    <input type="file" (change)="onVocabFileSelected($event)" accept=".json,.txt">
 
     <button (click)="goBackToLists()">Back to Lists</button>
 
