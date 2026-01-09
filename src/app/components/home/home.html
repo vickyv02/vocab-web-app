@@ -1,19 +1,27 @@
 <h1 class="container">Lists</h1>
-<ul class="list-container container">
-    <li ngClass="card" *ngFor="let list of lists$ | async" class="list-item">
-        <div>
-            <strong>{{ list.name }}</strong>
-            <span *ngIf="list.description"> - {{ list.description }}</span>
-            <br />
-            <small>{{ list.language }}, {{ list.itemCount || 0 }} words</small>
-        </div>
-        <button (click)="viewList(list.id)">View</button>
-        <button class="delete" (click)="deleteList(list.id)">Delete</button>
-    </li>
+<div class="container">
+    <ul class="list-container">
+        <li ngClass="card" *ngFor="let list of lists$ | async">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div class="card-content" (click)="viewList(list.id)">
+                    <strong>{{ list.name }}</strong>
+                    <span *ngIf="list.description"> - {{ list.description }}</span>
+                    <br />
+                    <small>{{ list.language }}, {{ list.itemCount || 0 }} words</small>
+                </div>
+                <button class="menu-btn" (click)="toggleMenu(list.id)">⋮</button>
+            </div>
 
-    <li *ngIf="(lists$ | async)?.length === 0" class="empty">
-    No lists yet. Create your first one!
-  </li>
-</ul>
+            <div class="menu-dropdown" *ngIf="showMenuId === list.id">
+                <button (click)="editList(list.id)">Edit</button>
+                <button class="delete" (click)="deleteList(list.id)">Delete</button>
+            </div>
+        </li>
+
+        <li *ngIf="(lists$ | async)?.length === 0" class="empty">
+        No lists yet. Create your first one!
+        </li>
+    </ul>
+</div>
 
 <button class="fab" (click)="createList()" aria-label="Create new list">+</button>

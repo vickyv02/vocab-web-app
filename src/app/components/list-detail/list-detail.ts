@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NewVocabularyItem, VocabularyCategory, VocabularyItem, VocabularyList } from '../../models/vocabulary.model';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VocabularyService } from '../../services/vocabulary';
@@ -13,9 +13,9 @@ import { Observable } from 'rxjs';
   styleUrl: './list-detail.css',
 })
 export class ListDetail implements OnInit {
-  //list?: VocabularyList;
   list$: Observable<VocabularyList | null>;
   listId: string | null = null;
+  showMenuId: string | null = null;
 
   vocabs: VocabularyItem[] = [];
   addVocabForm = new FormGroup({
@@ -90,5 +90,22 @@ export class ListDetail implements OnInit {
     }
 
     // TODO add txt
+  }
+
+  toggleMenu(id: string) {
+    this.showMenuId = this.showMenuId === id ? null : id;
+  }
+
+  editItem(id: string) {
+
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as Element;
+
+    if (!target.closest('.menu-btn')) {
+      this.showMenuId = null;
+    }
   }
 }

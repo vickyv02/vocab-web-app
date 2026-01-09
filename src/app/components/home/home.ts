@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { VocabularyList } from '../../models/vocabulary.model';
 import { Router } from '@angular/router';
 import { VocabularyService } from '../../services/vocabulary';
@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 export class Home {
   //lists: VocabularyList[] = [];
   lists$: Observable<VocabularyList[]>; // Observable that updates in real time
+  showMenuId: string | null = null;
 
   constructor(private vocabularyService: VocabularyService, private router: Router) {
     this.lists$ = this.vocabularyService.getLists();
@@ -36,5 +37,22 @@ export class Home {
 
   createList() {
     this.router.navigate(['/list/create']);
+  }
+
+  toggleMenu(id: string) {
+    this.showMenuId = this.showMenuId === id ? null : id;
+  }
+
+  editList(id: string) {
+
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as Element;
+
+    if (!target.closest('.menu-btn')) {
+      this.showMenuId = null;
+    }
   }
 }

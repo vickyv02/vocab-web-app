@@ -16,13 +16,21 @@
       </div>
 
       <h2>Words ({{ list.itemCount }})</h2>
-      <ul>
-          <li class="card" *ngFor="let item of list.items">
-              <strong>{{ item.vocab }}</strong> - {{ item.translation }} [{{ item.pronunciation }}]
-              <br />
-              <blockquote *ngIf="item.example">{{ item.example }}</blockquote>
+      <ul class="list-container">
+          <li ngClass="card" *ngFor="let item of list.items">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div class="card-content">
+                <strong>{{ item.vocab }}</strong> - {{ item.translation }} [{{ item.pronunciation }}]
+                <br />
+                <blockquote *ngIf="item.example">{{ item.example }}</blockquote>
+              </div>
+              <button class="menu-btn" (click)="toggleMenu(item.id)">⋮</button>
+            </div>
 
-              <button class="delete-item" (click)="deleteItem(item.id)">Delete</button>
+            <div class="menu-dropdown" *ngIf="showMenuId === item.id">
+              <button (click)="editItem(item.id)">Edit</button>
+              <button class="delete" (click)="deleteItem(item.id)">Delete</button>
+            </div>
           </li>
 
           <li *ngIf="list.itemCount === 0">No words yet. Add one below!</li>
