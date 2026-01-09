@@ -1,28 +1,33 @@
-<div *ngIf="list$ | async as list; else loading">
-    <h1>{{ list.name }}</h1>
-    <p *ngIf="list.description">{{ list.description }}</p>
+<div class="container">
+  <div *ngIf="list$ | async as list; else loading">
+      <h1>{{ list.name }}</h1>
+      <p *ngIf="list.description">{{ list.description }}</p>
 
-    <button class="list-new" (click)="addNewItem()">Add New Item</button>
-    <!-- Add from JSON -->
-    <input type="file" (change)="onVocabFileSelected($event)" accept=".json,.txt"> 
+      <div style="margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn-primary" (click)="addNewItem()">Add New Item</button>
+        <!-- Add from JSON -->
+        <input class="btn-primary" type="file" (change)="onVocabFileSelected($event)" accept=".json,.txt"> 
+      </div>
 
-    <h2>Study</h2>
-    <button (click)="startQuiz()">Multiple Choice Quiz</button>
+      <h2>Study</h2>
+      <div style="margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button (click)="startQuiz()">Multiple Choice Quiz</button>
+        <button (click)="goBackToLists()">Back to Lists</button>
+      </div>
 
-    <button (click)="goBackToLists()">Back to Lists</button>
+      <h2>Words ({{ list.itemCount }})</h2>
+      <ul>
+          <li class="card" *ngFor="let item of list.items">
+              <strong>{{ item.vocab }}</strong> - {{ item.translation }} [{{ item.pronunciation }}]
+              <br />
+              <blockquote *ngIf="item.example">{{ item.example }}</blockquote>
 
-    <h2>Words ({{ list.itemCount }})</h2>
-    <ul>
-        <li *ngFor="let item of list.items">
-            <strong>{{ item.vocab }}</strong> - {{ item.translation }} [{{ item.pronunciation }}]
-            <br />
-            <blockquote *ngIf="item.example">{{ item.example }}</blockquote>
+              <button class="delete-item" (click)="deleteItem(item.id)">Delete</button>
+          </li>
 
-            <button class="delete-item" (click)="deleteItem(item.id)">Delete</button>
-        </li>
-
-        <li *ngIf="list.itemCount === 0">No words yet. Add one below!</li>
-    </ul>
+          <li *ngIf="list.itemCount === 0">No words yet. Add one below!</li>
+      </ul>
+  </div>
 </div>
 
 <ng-template #loading>

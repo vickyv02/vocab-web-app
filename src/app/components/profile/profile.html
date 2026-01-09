@@ -1,7 +1,7 @@
-<div class="auth-container">
+<div class="auth-container container">
     <ng-container *ngIf="user$ | async as user">
-        <!-- <p>Signed in as <strong>{{ user.displayName || user.email }}</strong>.</p> -->
-        <!-- <img [src]="user.photoURL" alt="Profile" class="profile-pic" *ngIf="user.photoURL"> -->
+        <p>Signed in as <strong>{{ user.displayName || user.email }}</strong>.</p>
+        <img [src]="user.photoURL" alt="Profile" class="profile-pic" *ngIf="user.photoURL">
         <button (click)="signOutFromProvider()" class="sign-out">Sign Out</button>
     </ng-container>
 

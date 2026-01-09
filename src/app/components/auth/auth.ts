@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
+import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-auth',
@@ -13,25 +14,15 @@ import { Observable } from 'rxjs';
 export class AuthC {
   user$: Observable<User | null>;
 
-  constructor(private auth: Auth) {
-    this.user$ = authState(this.auth);
+  constructor(private authService: AuthService) {
+    this.user$ = this.authService.user$;
   }
 
-  async signInWithGoogle(): Promise<void> {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(this.auth, provider);
-    } catch (error) {
-      console.error('Google sign-in failed:', error);
-      alert('Sign in failed. Please try again.');
-    }
+  signInWithGoogle() {
+    this.authService.signInWithGoogle();
   }
 
-  async signOutFromGoogle(): Promise<void> {
-    try {
-      await signOut(this.auth);
-    } catch (error) {
-      console.error('Sign out failed:', error);
-    }
+  signOutFromProvider() {
+    this.authService.signOutFromProvider();
   }
 }

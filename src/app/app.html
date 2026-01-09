@@ -1,3 +1,16 @@
-<app-auth />
+<header>
+    <h1 (click)="goToHome()" class="clickable">Mori</h1>
+    <div class="user-info">
+        <ng-container *ngIf="user$ | async as user">
+            <div (click)="goToProfile()" class="clickable">
+                <img [src]="user.photoURL" alt="Profile" *ngIf="user.photoURL">
+            </div>
+            <!-- <span>{{ user.displayName || 'User' }}</span> -->
+        </ng-container>
+        <!-- <app-auth /> -->
+    </div>
+</header>
 
-<router-outlet />
+<main class="container" style="padding-top: 80px;">
+    <router-outlet />
+</main>

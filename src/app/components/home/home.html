@@ -1,6 +1,6 @@
-<h1>Lists</h1>
-<ul class="list-container">
-    <li *ngFor="let list of lists$ | async" class="list-item">
+<h1 class="container">Lists</h1>
+<ul class="list-container container">
+    <li ngClass="card" *ngFor="let list of lists$ | async" class="list-item">
         <div>
             <strong>{{ list.name }}</strong>
             <span *ngIf="list.description"> - {{ list.description }}</span>
@@ -16,4 +16,4 @@
   </li>
 </ul>
 
-<button class="list-new" (click)="createList()">Create New List</button>
+<button class="fab" (click)="createList()" aria-label="Create new list">+</button>

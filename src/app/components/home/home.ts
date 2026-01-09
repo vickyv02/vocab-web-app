@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { ListLanguage, VocabularyList } from '../../models/vocabulary.model';
+import { VocabularyList } from '../../models/vocabulary.model';
 import { Router } from '@angular/router';
 import { VocabularyService } from '../../services/vocabulary';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

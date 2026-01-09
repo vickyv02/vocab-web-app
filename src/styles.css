@@ -1,1 +1,283 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg-primary: #1a1a1a;
+  --bg-card: rgba(30, 30, 30, 0.4);
+  --bg-header: rgba(0, 0, 0, 0.4);
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --text-dark: #121212;
+  --accent: #ffffff;
+  --accent-hover: #ebebeb;
+  --white: #ffffff;
+  --danger: #cf6679;
+  --danger-hover: #b0465c;
+  --border: rgba(167, 167, 167, 0.2);
+  --blur: blur(12px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-header);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1000;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+header .user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-info img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+a {
+  color: #858585;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--text-secondary);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.card {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background: var(--accent);
+  color: var(--text-dark);
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.delete, .delete-item {
+  background: var(--danger);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.delete:hover, .delete-item:hover {
+  background: var(--danger-hover);
+}
+
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text-dark);
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(133, 133, 133, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: all 0.3s;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  /* box-shadow: 0 8px 25px rgba(133, 133, 133, 0.4); */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+input, select {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #2d2d2d;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #8b8b8b;
+  box-shadow: 0 0 0 3px rgba(112, 112, 112, 0.2);
+}
+
+.list-container {
+  list-style: none;
+}
+
+.list-item {
+  @extend .card;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+}
+
+.list-item small {
+  color: #aaaaaa;
+  font-size: 0.9rem;
+}
+
+.options button {
+  display: block;
+  width: 100%;
+  margin: 0.75rem 0;
+  padding: 1rem;
+  font-size: 1.1rem;
+  background: #2d2d2d;
+  border: 2px solid var(--border);
+}
+
+.options button:hover:not(:disabled) {
+  border-color: var(--border);
+}
+
+.options button.correct {
+  background: #1b5e20;
+  border-color: #4caf50;
+  color: var(--white);
+}
+
+.options button.incorrect {
+  background: #b71c1c;
+  border-color: #f44336;
+  color: var(--white);
+}
+
+.options button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  header {
+    padding: 0.75rem 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .list-item > div:last-child {
+    align-self: flex-end;
+  }
+
+  .fab {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.6rem;
+  }
+}

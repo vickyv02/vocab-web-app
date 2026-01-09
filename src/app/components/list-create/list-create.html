@@ -1,14 +1,18 @@
-<form [formGroup]="listForm" (ngSubmit)="createList()">
-    <h2>Create New List</h2>
-    <input formControlName="name" placeholder="Name" required>
-    <input formControlName="description" placeholder="Description (optional)">
-    <select formControlName="language">
-          <option value="en">English</option>
-          <option value="de">German</option>
-          <option value="cn">Chinese</option>
-          <option value="kr">Korean</option>
-        </select>
-    <button type="submit" [disabled]="listForm.invalid || listForm.pristine">Create</button>
-</form>
+<div class="container">
+    <div class="card">
+        <form [formGroup]="listForm" (ngSubmit)="createList()">
+            <h2>Create New List</h2>
+            <input formControlName="name" placeholder="Name" required>
+            <input formControlName="description" placeholder="Description (optional)">
+            <select formControlName="language">
+                <option value="en">English</option>
+                <option value="de">German</option>
+                <option value="cn">Chinese</option>
+                <option value="kr">Korean</option>
+                </select>
+            <button type="submit" class="btn-primary" [disabled]="listForm.invalid || listForm.pristine">Create</button>
+        </form>
+    </div>
+</div>
 
 <button (click)="goBackToLists()">Back to Lists</button>

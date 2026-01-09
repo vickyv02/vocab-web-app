@@ -1,4 +1,4 @@
-<div *ngIf="!quizComplete">
+<div class="container" *ngIf="!quizComplete">
     <h1>Multiple Choice Quiz</h1>
     <p>Question {{ currentQuestionIndex + 1 }} / 10</p>
     <h2>{{ questions[currentQuestionIndex]?.prompt }}</h2>
@@ -22,7 +22,7 @@
     <!-- <button *ngIf="selectedAnswer" (click)="nextQuestion()">Next</button> -->
 </div>
 
-<div *ngIf="quizComplete">
+<div class="container" *ngIf="quizComplete">
     <h1>Quiz Complete!</h1>
     <p>Score: {{ score }} / 10</p>
 
