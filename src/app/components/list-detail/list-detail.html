@@ -39,9 +39,6 @@
 </div>
 
 <ng-template #loading>
-  <p>Loading list...</p>
+  <p *ngIf="!(list$ | async)">Loading list...</p>
+  <p *ngIf="!(list$ | async) && listId">List not found.</p>
 </ng-template>
-
-<div *ngIf="!(list$ | async) && listId">
-  <p>List not found.</p>
-</div>

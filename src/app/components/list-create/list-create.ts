@@ -13,9 +13,9 @@ import { CommonModule } from '@angular/common';
 })
 export class ListCreate {
   listForm = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', Validators.required),
     description: new FormControl(''),
-    language: new FormControl('', Validators.required),
+    language: new FormControl<ListLanguage | null>(null, Validators.required),
   });
 
   constructor(private vocabularyService: VocabularyService, private router: Router) { }

@@ -1,0 +1,41 @@
+<div class="container">
+    <div *ngIf="vocabItem$ | async as vocabItem; else loading">
+        <div class="card">
+            <h2>Edit Item</h2>
+            <form [formGroup]="vocabForm" (ngSubmit)="saveVocab()">
+                <div class="form-group">
+                    <label for="vocab">Vocab</label>
+                    <input id="vocab" formControlName="vocab" placeholder="Vocab" required>
+                </div>
+                <div class="form-group">
+                    <label for="pronunciation">Pronunciation</label>
+                    <input id="pronunciation" formControlName="pronunciation" placeholder="Pronunciation (optional)">
+                </div>
+                <div class="form-group">
+                    <label for="translation">Translation</label>
+                    <input id="translation" formControlName="translation" placeholder="Translation" required>
+                </div>
+                <div class="form-group">
+                    <label for="example">Example</label>
+                    <input id="example" formControlName="example" placeholder="Example (optional)">
+                </div>
+                <div class="form-group">
+                    <label for="name">Category</label>
+                    <select id="category" formControlName="category">
+                        <option value="noun">Noun</option>
+                        <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
+                        <option value="phrase_idiom">Phrase/Idiom</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" [disabled]="vocabForm.invalid || vocabForm.pristine">Save</button>
+                <button type="button" (click)="viewList()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+  <p *ngIf="!(vocabItem$ | async)">Loading item...</p>
+  <p *ngIf="!(vocabItem$ | async) && vocabItemId">Item not found.</p>
+</ng-template>

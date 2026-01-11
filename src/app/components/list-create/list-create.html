@@ -1,7 +1,7 @@
 <div class="container">
     <div class="card">
+        <h2>Create New List</h2>
         <form [formGroup]="listForm" (ngSubmit)="createList()">
-            <h2>Create New List</h2>
             <input formControlName="name" placeholder="Name" required>
             <input formControlName="description" placeholder="Description (optional)">
             <select formControlName="language">

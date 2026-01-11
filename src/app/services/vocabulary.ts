@@ -73,6 +73,17 @@ export class VocabularyService {
     } as VocabularyList;
   }
 
+  async updateList(listId: string, updates: Partial<VocabularyList>): Promise<void> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('User not logged in.');
+
+    const listDocRef = doc(this.firestore, `users/${user.uid}/lists/${listId}`);
+
+    await updateDoc(listDocRef, {
+      ...updates
+    });
+  }
+
   async deleteList(listId: string): Promise<void> {
     const user = this.auth.currentUser;
     if (!user) throw new Error('User not logged in.');
@@ -116,6 +127,30 @@ export class VocabularyService {
       id: itemRef.id,
       ...vocabItem
     } as VocabularyItem;
+  }
+
+  getVocabItemById(listId: string, itemId: string): Observable<VocabularyItem | null> {
+    return this.user$.pipe(
+      switchMap((user) => {
+        if (!user) return of(null);
+
+        const vocabItemDocRef = doc(this.firestore, `users/${user.uid}/lists/${listId}/items/${itemId}`);
+        const vocabItem$ = docData(vocabItemDocRef, { idField: 'id' }) as Observable<VocabularyItem | null>;
+
+        return vocabItem$;
+      })
+    )
+  }
+
+  async updateListItem(listId: string, itemId: string, updates: Partial<VocabularyItem>): Promise<void> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('User not logged in.');
+
+    const listDocRef = doc(this.firestore, `users/${user.uid}/lists/${listId}/items/${itemId}`);
+
+    await updateDoc(listDocRef, {
+      ...updates
+    });
   }
 
   async deleteItemFromList(listId: string, itemId: string): Promise<void> {

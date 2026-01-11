@@ -44,7 +44,7 @@ export class Home {
   }
 
   editList(id: string) {
-
+    this.router.navigate(['/list', id, 'edit']);
   }
 
   @HostListener('document:click', ['$event'])

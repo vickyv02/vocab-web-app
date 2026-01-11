@@ -17,7 +17,6 @@ export class ListDetail implements OnInit {
   listId: string | null = null;
   showMenuId: string | null = null;
 
-  vocabs: VocabularyItem[] = [];
   addVocabForm = new FormGroup({
     vocab: new FormControl('', Validators.required),
     pronunciation: new FormControl(''),
@@ -26,7 +25,11 @@ export class ListDetail implements OnInit {
     category: new FormControl(VocabularyCategory.Other, Validators.required)
   });
 
-  constructor(private vocabularyService: VocabularyService, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private vocabularyService: VocabularyService, 
+    private route: ActivatedRoute, 
+    private router: Router
+  ) {
     this.list$ = new Observable();
   };
 
@@ -35,7 +38,7 @@ export class ListDetail implements OnInit {
     if (this.listId) {
       this.list$ = this.vocabularyService.getListById(this.listId);
     } else {
-      this.router.navigate(['/']); // to home
+      this.router.navigate(['/']);
     }
   }
 
@@ -97,7 +100,7 @@ export class ListDetail implements OnInit {
   }
 
   editItem(id: string) {
-
+    this.router.navigate(['/list', this.listId, 'item', id, 'edit']);
   }
 
   @HostListener('document:click', ['$event'])
