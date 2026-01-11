@@ -105,11 +105,13 @@ h2 {
   margin-bottom: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 100%;
+  z-index: 1;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
 }
 
 .card-header {
@@ -124,6 +126,8 @@ h2 {
   flex: 1;
   text-align: left;
   cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .card-content strong,
@@ -215,33 +219,50 @@ button:active {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.menu-dropdown {
-  position: absolute;
-  right: 0.5rem;
-  top: 3rem;
+.menu-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-menu {
+  display: flex;
+  gap: 0.5rem;
   background: #1e1e1e;
   border: 1px solid #333;
   border-radius: 8px;
-  padding: 0.5rem 0;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  z-index: 1000;
-  min-width: 140px;
-  overflow: hidden;
+  padding: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  z-index: 2000;
+  white-space: nowrap;
 }
 
-.menu-dropdown button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  text-align: left;
-  background: none;
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
   border: none;
+  font-size: 1.2rem;
   color: var(--text-primary);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
 }
 
-.menu-dropdown button:hover {
-  background: rgba(134, 134, 134, 0.15);
+.icon-btn:hover {
+  background: rgba(187, 134, 252, 0.15);
+}
+
+.icon-btn.edit {
+  color: var(--accent);
+}
+
+.icon-btn.delete {
+  color: var(--danger);
 }
 
 form {
@@ -285,6 +306,35 @@ input:focus, select:focus {
   outline: none;
   border-color: #8b8b8b;
   box-shadow: 0 0 0 3px rgba(112, 112, 112, 0.2);
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #2d2d2d;
+  color: #e0e0e0;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.2);
+}
+
+textarea[rows] {
+  overflow-y: hidden;
+}
+
+textarea {
+  min-height: 80px;
+  max-height: 300px;
 }
 
 .list-container {
@@ -335,6 +385,51 @@ input:focus, select:focus {
   cursor: not-allowed;
 }
 
+.description-wrapper {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.description-truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.description-full {
+  margin: 0.75rem 0 1.5rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+.description-full,
+.description-truncate {
+  max-width: 100%;
+}
+
+.list-name {
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.meta {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
 @media (max-width: 640px) {
   .container {
     padding: 0.75rem;
@@ -369,5 +464,9 @@ input:focus, select:focus {
     width: 52px;
     height: 52px;
     font-size: 1.6rem;
+  }
+
+  .description-full {
+    max-width: 80ch;
   }
 }

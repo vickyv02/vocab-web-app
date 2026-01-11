@@ -2,19 +2,23 @@
 <div class="container">
     <ul class="list-container">
         <li ngClass="card" *ngFor="let list of lists$ | async">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div class="card-header">
                 <div class="card-content" (click)="viewList(list.id)">
-                    <strong>{{ list.name }}</strong>
-                    <span *ngIf="list.description"> - {{ list.description }}</span>
-                    <br />
-                    <small>{{ list.language }}, {{ list.itemCount || 0 }} words</small>
+                    <strong class="list-name">{{ list.name }}</strong>
+                    <div class="description-wrapper" *ngIf="list.description">
+                        <span class="description-truncate">
+                            {{ list.description }}
+                        </span>
+                    </div>
+                    <small class="meta">{{ list.language }}, {{ list.itemCount || 0 }} words</small>
                 </div>
-                <button class="menu-btn" (click)="toggleMenu(list.id)">⋮</button>
-            </div>
-
-            <div class="menu-dropdown" *ngIf="showMenuId === list.id">
-                <button (click)="editList(list.id)">Edit</button>
-                <button class="delete" (click)="deleteList(list.id)">Delete</button>
+                <div class="menu-container">
+                    <div class="icon-menu" *ngIf="showMenuId === list.id">
+                        <button class="icon-btn edit" (click)="editList(list.id)" title="Edit">✏️</button>
+                        <button class="icon-btn delete" (click)="deleteList(list.id)" title="Delete">🗑️</button>
+                    </div>
+                    <button class="menu-btn" (click)="toggleMenu(list.id)">⋮</button>
+                </div>
             </div>
         </li>
 

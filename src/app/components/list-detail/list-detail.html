@@ -1,7 +1,7 @@
 <div class="container">
   <div *ngIf="list$ | async as list; else loading">
       <h1>{{ list.name }}</h1>
-      <p *ngIf="list.description">{{ list.description }}</p>
+      <p class="description-full" *ngIf="list.description">{{ list.description }}</p>
 
       <div style="margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
         <button class="btn-primary" (click)="addNewItem()">Add New Item</button>
@@ -18,18 +18,19 @@
       <h2>Words ({{ list.itemCount }})</h2>
       <ul class="list-container">
           <li ngClass="card" *ngFor="let item of list.items">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div class="card-header">
               <div class="card-content">
                 <strong>{{ item.vocab }}</strong> - {{ item.translation }} [{{ item.pronunciation }}]
                 <br />
                 <blockquote *ngIf="item.example">{{ item.example }}</blockquote>
               </div>
-              <button class="menu-btn" (click)="toggleMenu(item.id)">⋮</button>
-            </div>
-
-            <div class="menu-dropdown" *ngIf="showMenuId === item.id">
-              <button (click)="editItem(item.id)">Edit</button>
-              <button class="delete" (click)="deleteItem(item.id)">Delete</button>
+              <div class="menu-container">
+                <div class="icon-menu" *ngIf="showMenuId === item.id">
+                  <button class="icon-btn edit" (click)="editItem(item.id)" title="Edit">✏️</button>
+                  <button class="icon-btn delete" (click)="deleteItem(item.id)" title="Delete">🗑️</button>
+                </div>
+                <button class="menu-btn" (click)="toggleMenu(item.id)">⋮</button>
+              </div>
             </div>
           </li>
 

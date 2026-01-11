@@ -3,7 +3,13 @@
         <h2>Create New List</h2>
         <form [formGroup]="listForm" (ngSubmit)="createList()">
             <input formControlName="name" placeholder="Name" required>
-            <input formControlName="description" placeholder="Description (optional)">
+            <textarea 
+                id="description" 
+                formControlName="description" 
+                placeholder="Description (optional)"
+                rows="3"
+                style="resize: vertical;"
+            ></textarea>
             <select formControlName="language">
                 <option value="en">English</option>
                 <option value="de">German</option>

@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
   styleUrl: './home.css',
 })
 export class Home {
-  //lists: VocabularyList[] = [];
   lists$: Observable<VocabularyList[]>; // Observable that updates in real time
   showMenuId: string | null = null;
 
