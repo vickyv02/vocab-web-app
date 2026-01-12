@@ -15,7 +15,8 @@ export class ListCreate {
   listForm = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl(''),
-    language: new FormControl<ListLanguage | null>(null, Validators.required),
+    sourceLanguage: new FormControl<ListLanguage | null>(null, Validators.required),
+    targetLanguage: new FormControl<ListLanguage | null>(null, Validators.required),
   });
 
   constructor(private vocabularyService: VocabularyService, private router: Router) { }
@@ -23,12 +24,13 @@ export class ListCreate {
   async createList() {
     const name = this.listForm.get('name')?.value?.trim();
     const description = this.listForm.get('description')?.value?.trim();
-    const language = this.listForm.get('language')?.value as ListLanguage;
+    const sourceLanguage = this.listForm.get('sourceLanguage')?.value as ListLanguage;
+    const targetLanguage = this.listForm.get('targetLanguage')?.value as ListLanguage;
     
-    if (!name || !language) return;
+    if (!name || !sourceLanguage || !targetLanguage) return;
 
     try {
-      const newList = await this.vocabularyService.createList(name, language, description);
+      const newList = await this.vocabularyService.createList(name, sourceLanguage, targetLanguage, description);
       this.listForm.reset(); // this.listForm.get('name')?.setValue('');
       this.viewList(newList.id);
     } catch (error) {

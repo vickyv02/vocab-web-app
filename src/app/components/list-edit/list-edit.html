@@ -18,12 +18,21 @@
                     ></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="name">Language</label>
-                    <select id="language" formControlName="language">
+                    <label for="name">Source Language</label>
+                    <select id="language" formControlName="sourceLanguage">
                         <option value="en">English</option>
                         <option value="de">German</option>
-                        <option value="cn">Chinese</option>
-                        <option value="kr">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ko">Korean</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Target Language</label>
+                    <select id="language" formControlName="targetLanguage">
+                        <option value="en">English</option>
+                        <option value="de">German</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ko">Korean</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-primary" [disabled]="listForm.invalid || listForm.pristine">Save</button>

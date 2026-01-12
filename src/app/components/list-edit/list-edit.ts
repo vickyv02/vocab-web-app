@@ -19,7 +19,8 @@ export class ListEdit implements OnInit {
   listForm = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl(''),
-    language: new FormControl<ListLanguage | null>(null, Validators.required),
+    sourceLanguage: new FormControl<ListLanguage | null>(null, Validators.required),
+    targetLanguage: new FormControl<ListLanguage | null>(null, Validators.required),
   });
 
   constructor(
@@ -43,7 +44,8 @@ export class ListEdit implements OnInit {
           this.listForm.patchValue({ // updates only the provided fields
             name: list.name,
             description: list.description || '',
-            language: list.language
+            sourceLanguage: list.sourceLanguage,
+            targetLanguage: list.targetLanguage
           });
         }
       })
@@ -56,7 +58,8 @@ export class ListEdit implements OnInit {
     const updates = {
       name: this.listForm.get('name')?.value?.trim(),
       description: this.listForm.get('description')?.value?.trim() || '',
-      language: this.listForm.get('language')?.value as ListLanguage
+      sourceLanguage: this.listForm.get('sourceLanguage')?.value as ListLanguage,
+      targetLanguage: this.listForm.get('targetLanguage')?.value as ListLanguage
     };
 
     try {

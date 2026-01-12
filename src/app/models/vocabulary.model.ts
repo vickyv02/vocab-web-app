@@ -23,7 +23,8 @@ export interface VocabularyList {
     id: string;
     name: string;
     description?: string;
-    language: ListLanguage;
+    sourceLanguage: ListLanguage;
+    targetLanguage: ListLanguage;
     items?: VocabularyItem[]; // only for detail view
     itemCount: number;
     createdAt: Date;
@@ -39,6 +40,6 @@ export enum VocabularyCategory {
 export enum ListLanguage {
     English = 'en',
     German = 'de',
-    Chinese = 'cn',
-    Korean = 'kr'
+    Chinese = 'zh',
+    Korean = 'ko'
 }

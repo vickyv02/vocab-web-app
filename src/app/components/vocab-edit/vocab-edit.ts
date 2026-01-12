@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ListLanguage, VocabularyCategory, VocabularyItem, VocabularyList } from '../../models/vocabulary.model';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-vocab-edit',
@@ -13,6 +13,7 @@ import { Observable, tap } from 'rxjs';
   styleUrl: './vocab-edit.css',
 })
 export class VocabEdit implements OnInit {
+  list$: Observable<VocabularyList | null>;
   vocabItem$: Observable<VocabularyItem | null>;
   listId: string | null = null;
   vocabItemId: string | null = null;
@@ -30,6 +31,7 @@ export class VocabEdit implements OnInit {
     private router: Router, 
     private route: ActivatedRoute
   ) {
+    this.list$ = new Observable();
     this.vocabItem$ = new Observable();
   }
 
@@ -45,6 +47,8 @@ export class VocabEdit implements OnInit {
       this.router.navigate(['/lists', this.listId]);
       return;
     }
+
+    this.list$ = this.vocabularyService.getListById(this.listId);
 
     this.vocabItem$ = this.vocabularyService.getVocabItemById(this.listId, this.vocabItemId).pipe(
       tap(vocabItem => { // fills the form (like subscribe method)
@@ -84,5 +88,25 @@ export class VocabEdit implements OnInit {
   
   viewList() {
     this.router.navigate(['/list', this.listId]);
+  }
+
+  async autoTranslate() {
+    const vocab = this.vocabForm.get('vocab')?.value?.trim();
+    if (!vocab) return;
+
+    this.list$.pipe(take(1)).subscribe(async list => {
+      if (!list) return;
+
+      try {
+        const translation = await this.vocabularyService.autoTranslate(
+          vocab,
+          list.sourceLanguage,
+          list.targetLanguage || 'en'
+        );
+        this.vocabForm.patchValue({ translation });
+      } catch {
+        alert('Auto-translation failed. Please try again or enter manually.');
+      }
+    });
   }
 }

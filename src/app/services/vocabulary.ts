@@ -3,6 +3,7 @@ import { ListLanguage, NewVocabularyItem, VocabularyItem, VocabularyList } from 
 import { Auth, authState, signInAnonymously, User } from '@angular/fire/auth';
 import { combineLatest, firstValueFrom, map, Observable, of, switchMap } from 'rxjs';
 import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore, getDocs, increment, updateDoc, writeBatch } from '@angular/fire/firestore';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,14 @@ import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore,
 export class VocabularyService {
   user$: Observable<User | null>;
 
-  constructor(private firestore: Firestore, private auth: Auth) {
+  private libreTranslateUrls = [
+    'https://translate.fedilab.app/translate',
+    'https://libretranslate.de/translate',
+  ];
+
+  constructor(private firestore: Firestore, 
+    private auth: Auth,
+    private http: HttpClient) {
     this.user$ = authState(this.auth);
 
     // anon login
@@ -50,7 +58,7 @@ export class VocabularyService {
     )
   }
   
-  async createList(name: string, language: ListLanguage, description?: string): Promise<VocabularyList> {
+  async createList(name: string, sourceLanguage: ListLanguage, targetLanguage: ListLanguage, description?: string): Promise<VocabularyList> {
     const user = await firstValueFrom(this.user$.pipe(
       // wait until user is non null
     ))
@@ -61,7 +69,8 @@ export class VocabularyService {
     const newList = {
       name,
       description: description || '',
-      language: language,
+      sourceLanguage: sourceLanguage,
+      targetLanguage: targetLanguage,
       items: [],
       itemCount: 0,
       createdAt: new Date()
@@ -112,7 +121,7 @@ export class VocabularyService {
     const itemsCol = collection(this.firestore, `users/${user.uid}/lists/${listId}/items`);
     const vocabItem = {
       vocab: newItem.vocab,
-      pronunciation: newItem.pronunciation,
+      pronunciation: newItem.pronunciation || '',
       translation: newItem.translation,
       example: newItem.example || '',
       category: newItem.category,
@@ -166,5 +175,24 @@ export class VocabularyService {
     batch.update(listDocRef, { itemCount: increment(-1) });
 
     await batch.commit();
+  }
+
+  async autoTranslate(text: string, sourceLanguage: ListLanguage, targetLanguage: ListLanguage): Promise<string> {
+    if (!text.trim()) throw new Error('No text to translate');
+
+    const body = {
+      q: text,
+      source: sourceLanguage,
+      target: targetLanguage,
+      format: 'text'
+    };
+    
+    try {
+      const response = await this.http.post<any>(this.libreTranslateUrls[0], body).toPromise();
+      return response.translatedText || '';
+    } catch (error) {
+      console.error('Auto-translate failed:', error);
+      throw error;
+    }
   }
 }

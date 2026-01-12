@@ -10,7 +10,8 @@
                             {{ list.description }}
                         </span>
                     </div>
-                    <small class="meta">{{ list.language }}, {{ list.itemCount || 0 }} words</small>
+                    <small class="meta">{{ list.sourceLanguage }} -> {{ list.targetLanguage }}, 
+                        {{ list.itemCount || 0 }} words</small>
                 </div>
                 <div class="menu-container">
                     <div class="icon-menu" *ngIf="showMenuId === list.id">

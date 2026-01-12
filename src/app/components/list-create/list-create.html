@@ -10,12 +10,18 @@
                 rows="3"
                 style="resize: vertical;"
             ></textarea>
-            <select formControlName="language">
+            <select formControlName="sourceLanguage">
                 <option value="en">English</option>
                 <option value="de">German</option>
-                <option value="cn">Chinese</option>
-                <option value="kr">Korean</option>
-                </select>
+                <option value="zh">Chinese</option>
+                <option value="ko">Korean</option>
+            </select>
+            <select formControlName="targetLanguage">
+                <option value="en">English</option>
+                <option value="de">German</option>
+                <option value="zh">Chinese</option>
+                <option value="ko">Korean</option>
+            </select>
             <button type="submit" class="btn-primary" [disabled]="listForm.invalid || listForm.pristine">Create</button>
         </form>
     </div>

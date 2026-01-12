@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { NewVocabularyItem, VocabularyCategory, VocabularyItem, VocabularyList } from '../../models/vocabulary.model';
 import { VocabularyService } from '../../services/vocabulary';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +25,9 @@ export class ListAdd {
     category: new FormControl(VocabularyCategory.Other, Validators.required)
   });
 
-  constructor(private vocabularyService: VocabularyService, private route: ActivatedRoute, private router: Router) {
+  constructor(private vocabularyService: VocabularyService, 
+    private route: ActivatedRoute, 
+    private router: Router) {
     this.list$ = new Observable();
   };
 
@@ -67,5 +69,25 @@ export class ListAdd {
 
   goBackToList() {
     this.router.navigate(['/list', this.listId]);
+  }
+
+  async autoTranslate() {
+    const vocab = this.addVocabForm.get('vocab')?.value?.trim();
+    if (!vocab) return;
+
+    this.list$.pipe(take(1)).subscribe(async list => {
+      if (!list) return;
+
+      try {
+        const translation = await this.vocabularyService.autoTranslate(
+          vocab,
+          list.sourceLanguage,
+          list.targetLanguage || 'en'
+        );
+        this.addVocabForm.patchValue({ translation });
+      } catch {
+        alert('Auto-translation failed. Please try again or enter manually.');
+      }
+    });
   }
 }
