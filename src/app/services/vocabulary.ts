@@ -15,6 +15,7 @@ export class VocabularyService {
     'https://translate.fedilab.app/translate',
     'https://libretranslate.de/translate',
   ];
+  private pinyinUrl = 'https://vocab-web-app-backend.onrender.com/pinyin';
 
   constructor(private firestore: Firestore, 
     private auth: Auth,
@@ -192,6 +193,16 @@ export class VocabularyService {
       return response.translatedText || '';
     } catch (error) {
       console.error('Auto-translate failed:', error);
+      throw error;
+    }
+  }
+
+  async autoPinyin(text: string): Promise<string> {
+    try {
+      const response = await this.http.post<any>(this.pinyinUrl, { text }).toPromise();
+      return response.pinyin || '';
+    } catch (error) {
+      console.error('Pinyin backend error:', error);
       throw error;
     }
   }

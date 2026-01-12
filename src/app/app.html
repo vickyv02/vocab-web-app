@@ -5,7 +5,11 @@
             <div (click)="goToProfile()" class="clickable">
                 <img [src]="user.photoURL" alt="Profile" *ngIf="user.photoURL">
             </div>
-            <!-- <span>{{ user.displayName || 'User' }}</span> -->
+        </ng-container>
+        <ng-container *ngIf="!(user$ | async)">
+            <div (click)="goToProfile()" class="clickable">
+                <img [src]="" alt="Log-In">
+            </div>
         </ng-container>
         <!-- <app-auth /> -->
     </div>

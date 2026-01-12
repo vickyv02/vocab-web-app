@@ -17,6 +17,7 @@ export class VocabEdit implements OnInit {
   vocabItem$: Observable<VocabularyItem | null>;
   listId: string | null = null;
   vocabItemId: string | null = null;
+  pinyinPossible = false;
 
   vocabForm = new FormGroup({
     vocab: new FormControl('', Validators.required),
@@ -49,6 +50,10 @@ export class VocabEdit implements OnInit {
     }
 
     this.list$ = this.vocabularyService.getListById(this.listId);
+    this.list$.pipe(take(1)).subscribe(async list => {
+      if (!list) return;
+      if (list.sourceLanguage == ListLanguage.Chinese) this.pinyinPossible = true;
+    });
 
     this.vocabItem$ = this.vocabularyService.getVocabItemById(this.listId, this.vocabItemId).pipe(
       tap(vocabItem => { // fills the form (like subscribe method)
@@ -108,5 +113,17 @@ export class VocabEdit implements OnInit {
         alert('Auto-translation failed. Please try again or enter manually.');
       }
     });
+  }
+
+  async autoPinyin() {
+    const vocab = this.vocabForm.get('vocab')?.value?.trim();
+    if (!vocab) return;
+
+    try {
+      const pinyin = await this.vocabularyService.autoPinyin(vocab);
+      this.vocabForm.patchValue({ pronunciation: pinyin });
+    } catch {
+      alert('Auto-creation of pinyin failed. Please try again or enter manually.');
+    }
   }
 }

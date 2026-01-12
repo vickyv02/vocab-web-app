@@ -8,19 +8,32 @@
                 <h2>New Vocab</h2>
                 <div class="form-group">
                     <label for="vocab">Vocab</label>
-                    <input id="vocab" formControlName="vocab" placeholder="Vocab" required>
+                    <div class="input-group">
+                        <input id="vocab" formControlName="vocab" placeholder="Vocab" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label id="pronunciation" for="pronunciation">Pronunciation</label>
-                    <input formControlName="pronunciation" placeholder="Pronunciation (optional)">
+                    <label for="pronunciation">Pronunciation</label>
+                    <div class="input-group">
+                        <input id="pronunciation" formControlName="pronunciation" placeholder="Pronunciation (optional)">
+                        <button 
+                        type="button" 
+                        class="btn-square translate-btn"
+                        [disabled]="!addVocabForm.get('vocab')?.value?.trim() || !pinyinPossible"
+                        (click)="autoPinyin()"
+                        title="Auto-create pinyin from characters"
+                        aria-label="Auto pinyin">
+                        🔄
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group translation-group">
                     <label for="translation">Translation</label>
-                    <div class="input-with-icon">
+                    <div class="input-group">
                         <input id="translation" formControlName="translation" placeholder="Translation" required>
                         <button 
                         type="button" 
-                        class="icon-btn translate-btn"
+                        class="btn-square translate-btn"
                         [disabled]="!addVocabForm.get('vocab')?.value?.trim()"
                         (click)="autoTranslate()"
                         title="Auto-translate from source language"
@@ -30,20 +43,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label id="example" for="example">Example</label>
-                    <input formControlName="example" placeholder="Example (optional)">
+                    <label for="example">Example</label>
+                    <div class="input-group">
+                        <input formControlName="example" placeholder="Example (optional)">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label id="category" for="category">Category</label>
-                    <select formControlName="category">
-                        <option value="noun">Noun</option>
-                        <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
-                        <option value="phrase_idiom">Phrase/Idiom</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <label for="category">Category</label>
+                    <div class="input-group">
+                        <select id="category" formControlName="category">
+                            <option value="noun">Noun</option>
+                            <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
+                            <option value="phrase_idiom">Phrase/Idiom</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary submit-btn" [disabled]="addVocabForm.invalid">Add</button>
-                <button type="button" (click)="goBackToList()">Cancel</button>
+                <button type="button" class="btn-secondary" (click)="goBackToList()">Cancel</button>
             </form>
         </div>
     </div>

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, take } from 'rxjs';
-import { NewVocabularyItem, VocabularyCategory, VocabularyItem, VocabularyList } from '../../models/vocabulary.model';
+import { ListLanguage, NewVocabularyItem, VocabularyCategory, VocabularyItem, VocabularyList } from '../../models/vocabulary.model';
 import { VocabularyService } from '../../services/vocabulary';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ListAdd {
   list$: Observable<VocabularyList | null>;
   listId: string | null = null;
+  pinyinPossible = false;
 
   vocabs: VocabularyItem[] = [];
   addVocabForm = new FormGroup({
@@ -35,8 +36,12 @@ export class ListAdd {
     this.listId = this.route.snapshot.paramMap.get('id');
     if (this.listId) {
       this.list$ = this.vocabularyService.getListById(this.listId);
+      this.list$.pipe(take(1)).subscribe(async list => {
+        if (!list) return;
+        if (list.sourceLanguage == ListLanguage.Chinese) this.pinyinPossible = true;
+      });
     } else {
-      this.router.navigate(['/']); // to home
+      this.router.navigate(['/']);
     }
   }
 
@@ -89,5 +94,17 @@ export class ListAdd {
         alert('Auto-translation failed. Please try again or enter manually.');
       }
     });
+  }
+
+  async autoPinyin() {
+    const vocab = this.addVocabForm.get('vocab')?.value?.trim();
+    if (!vocab) return;
+
+    try {
+      const pinyin = await this.vocabularyService.autoPinyin(vocab);
+      this.addVocabForm.patchValue({ pronunciation: pinyin });
+    } catch {
+      alert('Auto-creation of pinyin failed. Please try again or enter manually.');
+    }
   }
 }

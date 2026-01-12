@@ -54,4 +54,8 @@ export class Home {
       this.showMenuId = null;
     }
   }
+
+  goToProfile() {
+    this.router.navigate(['/user']);
+  }
 }

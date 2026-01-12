@@ -25,6 +25,8 @@
 
         <li *ngIf="(lists$ | async)?.length === 0" class="empty">
         No lists yet. Create your first one!
+            <br><br>
+            <button class="btn-primary" (click)="goToProfile()">Log-In</button>
         </li>
     </ul>
 </div>

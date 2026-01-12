@@ -5,42 +5,59 @@
             <form [formGroup]="vocabForm" (ngSubmit)="saveVocab()">
                 <div class="form-group">
                     <label for="vocab">Vocab</label>
-                    <input id="vocab" formControlName="vocab" placeholder="Vocab" required>
+                    <div class="input-group">
+                        <input id="vocab" formControlName="vocab" placeholder="Vocab" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="pronunciation">Pronunciation</label>
-                    <input id="pronunciation" formControlName="pronunciation" placeholder="Pronunciation (optional)">
+                    <div class="input-group">
+                        <input id="pronunciation" formControlName="pronunciation" placeholder="Pronunciation (optional)">
+                        <button 
+                        type="button" 
+                        class="btn-square translate-btn"
+                        [disabled]="!vocabForm.get('vocab')?.value?.trim() || !pinyinPossible"
+                        (click)="autoPinyin()"
+                        title="Auto-create pinyin from characters"
+                        aria-label="Auto pinyin">
+                        🔄
+                        </button>
+                    </div>
                 </div>
                 <div class="form-group translation-group">
                     <label for="translation">Translation</label>
-                    <div class="input-with-icon">
+                    <div class="input-group">
                         <input id="translation" formControlName="translation" placeholder="Translation" required>
                         <button 
-                            type="button" 
-                            class="icon-btn translate-btn"
-                            [disabled]="!vocabForm.get('vocab')?.value?.trim()"
-                            (click)="autoTranslate()"
-                            title="Auto-translate from source language"
-                            aria-label="Auto translate">
-                            🔄
+                        type="button" 
+                        class="btn-square translate-btn"
+                        [disabled]="!vocabForm.get('vocab')?.value?.trim()"
+                        (click)="autoTranslate()"
+                        title="Auto-translate from source language"
+                        aria-label="Auto translate">
+                        🔄
                         </button>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="example">Example</label>
-                    <input id="example" formControlName="example" placeholder="Example (optional)">
+                    <div class="input-group">
+                        <input id="example" formControlName="example" placeholder="Example (optional)">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="name">Category</label>
-                    <select id="category" formControlName="category">
-                        <option value="noun">Noun</option>
-                        <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
-                        <option value="phrase_idiom">Phrase/Idiom</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <div class="input-group">
+                        <select id="category" formControlName="category">
+                            <option value="noun">Noun</option>
+                            <option value="verb_adjective_adverb">Verb/Adjective/Adverb</option>
+                            <option value="phrase_idiom">Phrase/Idiom</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary submit-btn" [disabled]="vocabForm.invalid || vocabForm.pristine">Save</button>
-                <button type="button" (click)="viewList()">Cancel</button>
+                <button type="button" class="btn-secondary" (click)="viewList()">Cancel</button>
             </form>
         </div>
     </div>

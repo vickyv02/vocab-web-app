@@ -5,38 +5,46 @@
             <form [formGroup]="listForm" (ngSubmit)="saveList()">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input id="name" formControlName="name" placeholder="Name" required>
+                    <div class="input-group">
+                        <input id="name" formControlName="name" placeholder="Name" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="name">Description</label>
-                    <textarea 
-                        id="description" 
-                        formControlName="description" 
-                        placeholder="Description (optional)"
-                        rows="3"
-                        style="resize: vertical;"
-                    ></textarea>
+                    <label for="description">Description</label>
+                    <div class="input-group">
+                        <textarea 
+                            id="description" 
+                            formControlName="description" 
+                            placeholder="Description (optional)"
+                            rows="3"
+                            style="resize: vertical;"
+                        ></textarea>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="name">Source Language</label>
-                    <select id="language" formControlName="sourceLanguage">
-                        <option value="en">English</option>
-                        <option value="de">German</option>
-                        <option value="zh">Chinese</option>
-                        <option value="ko">Korean</option>
-                    </select>
+                    <label for="sourceLanguage">Source Language</label>
+                    <div class="input-group">
+                        <select id="language" formControlName="sourceLanguage">
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ko">Korean</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="name">Target Language</label>
-                    <select id="language" formControlName="targetLanguage">
-                        <option value="en">English</option>
-                        <option value="de">German</option>
-                        <option value="zh">Chinese</option>
-                        <option value="ko">Korean</option>
-                    </select>
+                    <label for="targetLanguage">Target Language</label>
+                    <div class="input-group">
+                        <select id="language" formControlName="targetLanguage">
+                            <option value="en">English</option>
+                            <option value="de">German</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ko">Korean</option>
+                        </select>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary" [disabled]="listForm.invalid || listForm.pristine">Save</button>
-                <button type="button" (click)="goBackToLists()">Cancel</button>
+                <button type="button" class="btn-secondary" (click)="goBackToLists()">Cancel</button>
             </form>
         </div>
     </div>
